@@ -4,7 +4,7 @@ import DatabaseService from './database-service';
 export default class ProjectDependencies {
 
     public static dependencies: ProjectDependencies;
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService;
 
     constructor(){
         this.databaseService = new DatabaseService();

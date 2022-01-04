@@ -29,7 +29,7 @@ export interface ISKUVariant {
 
 export const skuVariantSchema = joi.object({
     skuNumber: joi.string().required(),
-    trackInventory: joi.number().required(),
+    trackInventory: joi.boolean().required(),
     unitPrice: joi.number().required(),
     unitCost: joi.number(),
     variants: joi.array().items(joi.object({
@@ -44,7 +44,7 @@ export interface IProduct {
     description: string;
     unitCost: number;
     productSKU: string;
-    trackInventory: number;
+    // trackInventory: boolean;
     unitPrice: number;
     weight: number;
     smallImage: string;

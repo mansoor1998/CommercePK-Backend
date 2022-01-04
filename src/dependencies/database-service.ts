@@ -1,6 +1,7 @@
 
 import { Connection, createConnection } from "typeorm";
 import { CrudAppRepository } from "../application/repository/crud-app.repository";
+import InventoryRepository from "../application/repository/inventory.repository";
 import ProductRepository from "../application/repository/product.repository";
 import { IEntity } from "../database/utilities/entity/full-audit-entity";
 
@@ -9,6 +10,7 @@ export default class DatabaseService {
     // for short term purposes.
     public connection: Connection;
     public productRepository: ProductRepository;
+    public inventoryRepository: InventoryRepository;
     constructor(){
         // // Creating repositories inside here
         // this.homeRepository = new HomeRepository();
@@ -27,6 +29,7 @@ export default class DatabaseService {
 
     public createRepositoriesInstance(): void{
         this.productRepository = new ProductRepository(this.connection);
+        this.inventoryRepository = new InventoryRepository(this.connection);
     }
 
 

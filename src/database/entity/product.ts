@@ -4,6 +4,7 @@ import { Category } from "./category";
 import { SKU } from "./sku";
 import { Variant } from "./variant";
 import { v4 as uuid } from 'uuid';
+import { SKUValue } from ".";
 
 
 @Entity("Product")
@@ -55,6 +56,9 @@ export class Product extends FullAuditEntity implements IEntity {
 
     @OneToMany(() => SKU, sku => sku.product)
     public SKUs: SKU[];
+
+    // @OneToMany(() => SKUValue, sku => sku.productId)
+    // public SKValues: SKUValue[];
 
     @BeforeInsert()
     addId(){
