@@ -1,7 +1,8 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { FullAuditEntity, IEntity } from "../utilities/entity/full-audit-entity";
 import { Variant } from "./variant";
 import { v4 as uuid } from 'uuid';
+import { SKUValue } from ".";
 
 @Entity("Option")
 export class Option implements IEntity {
@@ -25,6 +26,9 @@ export class Option implements IEntity {
 
     @Column()
     public variantId: string;
+
+    @OneToMany(() => SKUValue, skuValue => skuValue.option)
+    public skuValues: SKUValue[];
 
     @BeforeInsert()
     addId(){

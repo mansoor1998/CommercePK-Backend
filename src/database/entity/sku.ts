@@ -1,7 +1,8 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { FullAuditEntity, IEntity } from "../utilities/entity/full-audit-entity";
 import { Product } from "./product";
 import { v4 as uuid } from 'uuid';
+import { SKUValue } from ".";
 
 @Entity("SKU")
 export class SKU extends FullAuditEntity implements IEntity {
@@ -43,6 +44,11 @@ export class SKU extends FullAuditEntity implements IEntity {
 
     @Column()
     public productId: string;
+
+
+    // FK of this/these table[s] does not exist.
+    @OneToMany(() => SKUValue, sku => sku.productId)
+    public skuValues: SKUValue[];
 
     @BeforeInsert()
     addId(){

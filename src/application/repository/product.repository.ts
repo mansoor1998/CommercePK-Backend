@@ -10,7 +10,15 @@ export default class ProductRepository extends CrudAppRepository<Product> {
     }
 
     public override async getAll(): Promise<Product[]> {
-        return await this.connection.getRepository(Product).find();
+        return await this.connection.createQueryBuilder(Product, "product")
+                    .leftJoinAndSelect("product.SKUs", "sku")
+                    .groupBy("sku.inventoryLevel")
+                    .addGroupBy("product.id")
+                    .select("product.id", "id")
+                    .addSelect("product.title", "title")
+                    .addSelect("product.status", "status")
+                    .addSelect("SUM(sku.inventoryLevel)", "inventoryLevel")
+                    .getRawMany();
     }
 
     public async create(product: Product, skuValuesTemp: { optionName: string, variantName: string, skuNumber: string }[] | undefined): Promise<string> {
