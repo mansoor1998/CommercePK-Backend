@@ -21,9 +21,11 @@ export default class ProductRepository extends CrudAppRepository<Product> {
                     .getRawMany();
     }
 
-    public async create(product: Product, skuValuesTemp: { optionName: string, variantName: string, skuNumber: string }[] | undefined): Promise<string> {
+    public async create(product: Product, skuValuesTemp: { optionName: string, variantName: string, skuNumber: string }[] | undefined, 
+        userId: string | null = null): Promise<string> {
         product.isDeleted = false;
         product.hasVariant = (product.variants && product.variants.length > 0) ? true: false;
+        product.creatorUserId = userId;
         await getManager().transaction(async transactionManager => {
             await transactionManager.save(product);
             product.SKUs?.forEach(x => x.productId = product.id);

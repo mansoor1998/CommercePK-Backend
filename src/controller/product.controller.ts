@@ -1,6 +1,8 @@
 import express, { Router, Response, Request } from "express";
 import { Product, SKU, SKUValue, Variant } from "../database/entity";
 import ProjectDependencies from "../dependencies";
+import { Role } from "../dependencies/iauth-service";
+import { authorize } from "../middleware/authorize";
 import { validator } from "../middleware/validator";
 import { IProduct, ISKUVariant, productSchema } from "../validator/product.validator";
 
@@ -13,7 +15,7 @@ const ProductController = (dependencies: ProjectDependencies): Router => {
         res.send(await productRepository.getAll());
     });
 
-    router.post('/create', validator(productSchema), async (req: Request, res: Response) => {
+    router.post('/create', authorize([Role.admin]) , validator(productSchema), async (req: Request, res: Response) => {
         const body = req.body;
         const skuVariants = body.skuVariants as ISKUVariant[];
         body.skuVariants = undefined;
