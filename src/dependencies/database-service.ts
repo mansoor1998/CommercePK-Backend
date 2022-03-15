@@ -2,6 +2,7 @@
 import { Connection, createConnection } from "typeorm";
 import { CrudAppRepository } from "../application/repository/crud-app.repository";
 import InventoryRepository from "../application/repository/inventory.repository";
+import OrderRepository from "../application/repository/order.repository";
 import ProductRepository from "../application/repository/product.repository";
 import UserRepository from "../application/repository/user.repository";
 import { IEntity } from "../database/utilities/entity/full-audit-entity";
@@ -13,6 +14,7 @@ export default class DatabaseService {
     public productRepository: ProductRepository;
     public inventoryRepository: InventoryRepository;
     public userRepository: UserRepository;
+    public orderRepository: OrderRepository;
     constructor(){
     }
 
@@ -28,6 +30,7 @@ export default class DatabaseService {
         this.productRepository = new ProductRepository(this.connection);
         this.inventoryRepository = new InventoryRepository(this.connection);
         this.userRepository = new UserRepository(this.connection);
+        this.orderRepository = new OrderRepository(this.connection);
     }
 
 

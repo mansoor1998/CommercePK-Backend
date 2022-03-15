@@ -9,6 +9,7 @@ import { Connection } from "typeorm";
 
 
 import admin, { auth } from 'firebase-admin';
+import { Role } from "./dependencies/iauth-service";
 
 
 
@@ -35,6 +36,7 @@ import admin, { auth } from 'firebase-admin';
 // // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
+if(process.env.NODE_ENV === 'production') console.log = function(){}
 
 declare namespace Express {
     export interface Request {
@@ -68,6 +70,18 @@ ProjectDependencies.getInstance().databaseService.initDatabase().then((connectio
             .getMany();
 
         res.send(result);
+    });
+
+    if(process.env.NODE_ENV === 'development') app.get('/add-firebase-role', (req, res) => {
+        const {id} = req.query;
+        const {name} = req.query;
+        try{
+            ProjectDependencies.getInstance().authService
+            .grantRole(id as string , (name == Role.customer) ? Role.customer : Role.admin);
+        }catch(e) {
+            res.status(500).send("error bruh!");
+        }
+        res.send("done");
     });
 
     // app.get('/get-user', async (req, res) => {

@@ -81,4 +81,12 @@ export default class ProductRepository extends CrudAppRepository<Product> {
 
         return product.id;
     }
+
+    public async getBySkuId(skuId: string): Promise<SKU | undefined> {
+        return await this.connection
+                .getRepository(SKU)
+                .createQueryBuilder("sku")
+                .where("sku.id = :id", { id: skuId })
+                .getOne();
+    }
 }
